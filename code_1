@@ -1,0 +1,25 @@
+import os
+
+# Project: Simple CLI File Search Engine (O(1) Search after Indexing)
+class FileIndexer:
+    def __init__(self):
+        self.index = {} # Dictionary acts as a Hash Map for O(1) lookups
+
+    def index_files(self, directory):
+        for filename in os.listdir(directory):
+            if filename.endswith(".txt"): # Logic for text files
+                with open(os.path.join(directory, filename), 'r') as f:
+                    words = f.read().lower().split()
+                    for word in words:
+                        if word not in self.index:
+                            self.index[word] = set()
+                        self.index[word].add(filename)
+        print("Indexing Complete.")
+
+    def search(self, word):
+        return self.index.get(word.lower(), "Word not found.")
+
+# Demo usage:
+# engine = FileIndexer()
+# engine.index_files('./my_notes')
+# print(engine.search('Algorithm'))
